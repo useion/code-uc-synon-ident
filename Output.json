@@ -1,0 +1,231 @@
+[
+  {
+    "usecases": [
+      {
+        "name": "Place Order",
+        "steps": [
+          {
+            "stepNumber": "6.",
+            "step": "Customer confirms the order",
+            "classes": [
+              {
+                "className": "ModelCheckoutRecurring",
+                "package": "",
+                "methods": [
+                  {
+                    "methodName": "create($recurring, $order_id, $description)",
+                    "lines": [
+                      {
+                        "line": 3,
+                        "matchedWords": "order status "
+                      }
+                    ]
+                  },
+                  {
+                    "methodName": "addReference($order_recurring_id, $reference)",
+                    "lines": [
+                      {
+                        "line": 9,
+                        "matchedWords": "order "
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "stepNumber": "5.",
+            "step": "System shows the summary of the order and requires to confirm the order",
+            "classes": [
+              {
+                "className": "ModelCheckoutRecurring",
+                "package": "",
+                "methods": [
+                  {
+                    "methodName": "create($recurring, $order_id, $description)",
+                    "lines": [
+                      {
+                        "line": 3,
+                        "matchedWords": "order status "
+                      }
+                    ]
+                  },
+                  {
+                    "methodName": "addReference($order_recurring_id, $reference)",
+                    "lines": [
+                      {
+                        "line": 9,
+                        "matchedWords": "order "
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "stepNumber": "3.",
+            "step": "Customer enters the billing delivery details and the payment method",
+            "classes": [
+              {
+                "className": "ModelCheckoutRecurring",
+                "package": "",
+                "methods": [
+                  {
+                    "methodName": "create($recurring, $order_id, $description)",
+                    "lines": [
+                      {
+                        "line": 3,
+                        "matchedWords": "return "
+                      }
+                    ]
+                  },
+                  {
+                    "methodName": "addReference($order_recurring_id, $reference)",
+                    "lines": [
+                      {
+                        "line": 9,
+                        "matchedWords": "return "
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "stepNumber": "2.",
+            "step": "System prompts for billing delivery details and payment method",
+            "classes": [
+              {
+                "className": "ModelCheckoutRecurring",
+                "package": "",
+                "methods": [
+                  {
+                    "methodName": "create($recurring, $order_id, $description)",
+                    "lines": [
+                      {
+                        "line": 3,
+                        "matchedWords": "get return "
+                      }
+                    ]
+                  },
+                  {
+                    "methodName": "addReference($order_recurring_id, $reference)",
+                    "lines": [
+                      {
+                        "line": 9,
+                        "matchedWords": "return "
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "stepNumber": "4.",
+            "step": "System prompts to agree to the terms and conditions",
+            "classes": [
+              {
+                "className": "ModelCheckoutRecurring",
+                "package": "",
+                "methods": [
+                  {
+                    "methodName": "create($recurring, $order_id, $description)",
+                    "lines": [
+                      {
+                        "line": 3,
+                        "matchedWords": "get price quantity status order "
+                      }
+                    ]
+                  },
+                  {
+                    "methodName": "addReference($order_recurring_id, $reference)",
+                    "lines": [
+                      {
+                        "line": 9,
+                        "matchedWords": "order "
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "stepNumber": "1.",
+            "step": "Customer selects to checkout",
+            "classes": []
+          },
+          {
+            "stepNumber": "7.",
+            "step": "System saves the order",
+            "classes": [
+              {
+                "className": "ModelCheckoutRecurring",
+                "package": "",
+                "methods": [
+                  {
+                    "methodName": "create($recurring, $order_id, $description)",
+                    "lines": [
+                      {
+                        "line": 3,
+                        "matchedWords": "order status "
+                      }
+                    ]
+                  },
+                  {
+                    "methodName": "addReference($order_recurring_id, $reference)",
+                    "lines": [
+                      {
+                        "line": 9,
+                        "matchedWords": "order "
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "stepNumber": "1a.",
+            "step": "The selected products are out of stock",
+            "classes": [
+              {
+                "className": "ModelCheckoutRecurring",
+                "package": "",
+                "methods": [
+                  {
+                    "methodName": "create($recurring, $order_id, $description)",
+                    "lines": [
+                      {
+                        "line": 3,
+                        "matchedWords": "set fix product quantity float "
+                      }
+                    ]
+                  },
+                  {
+                    "methodName": "addReference($order_recurring_id, $reference)",
+                    "lines": [
+                      {
+                        "line": 9,
+                        "matchedWords": "set fix count "
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "stepNumber": "1a1.",
+            "step": "Include",
+            "classes": []
+          }
+        ]
+      }
+    ]
+  }
+]
