@@ -21,8 +21,8 @@ var ext = argv['lang'];
 
 controler.mainProcess(codeDirectory,ext).then(function () {
     console.log("DONE");
-    db.close();
-    process.exit(0);
+    //db.close();
+    //process.exit(0);
 })
     .catch(function (err) {
         console.log("ERROR  " + err);

@@ -9,6 +9,7 @@
     git clone https://github.com/useion/useion.git
     cd useion
     npm install
+    pip install pattern3
 
 ## NLTK
 
@@ -41,13 +42,14 @@ Here are examples how to run them:
     node init.js
     python lib/usecaseprocess/NltkInterface.py &
     node preprocess.js --uc-path UC_PATH
-    node calc.js --code-path CODE_PATH --lang LANG
+    node calc.js --code-path CODE_PATH --lang LANG --strategy STRING
 
 The legend:
 
 | UC_PATH   | path to the use cases      |
 | CODE_PATH | path to the implementation | 
 | LANG      | programming language, e.g. php       |
+| STRING    | consider orig/syn/hyper/hypo         |
 
 # Authors
 

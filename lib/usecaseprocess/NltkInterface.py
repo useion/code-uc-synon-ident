@@ -1,5 +1,7 @@
 import nltk as nl
 from nltk.corpus import wordnet as wn
+from nltk.stem.wordnet import WordNetLemmatizer
+from pattern3.text.en import singularize
 from xmlrpc.server import SimpleXMLRPCServer as xs
 from xmlrpc.server import SimpleXMLRPCRequestHandler as rh
 
@@ -14,16 +16,23 @@ def pos_assign(sentence):
 
 
 def simwords_find(worditself, type):
-    print(worditself, type)
-    word = (worditself + '.' + type + '.01')
-    # print("word "+word)
-    synseting = wn.synsets(worditself)
+    print("porcessing ",worditself, type)
+    word = worditself
+    try:
+        word = WordNetLemmatizer().lemmatize(worditself,type)
+    except Exception:
+        word = worditself
+    
+    if (type == "n"): 
+        word = singularize(word)
+    
+    print("lemma + singular if noun", word)
+    synseting = wn.synsets(word) #itself)
     # print(synseting)
     syn = []
     hype = []
     hypo = []
     for s in synseting:
-        print(s)
         # print(s.pos())
         if s.pos() == type:
             # print(s.lemma_names())
@@ -46,8 +55,8 @@ def simwords_find(worditself, type):
                 else:
                     hypo.extend(h.lemma_names())
                     # print(h.lemma_names())
-    print(syn, hype, hypo)
-    return syn, hype, hypo
+    print("Output ", word, syn, hype, hypo)
+    return word, syn, hype, hypo
 
 
 class RequestHandler(rh):
