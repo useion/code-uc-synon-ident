@@ -4,9 +4,10 @@ from nltk.stem.wordnet import WordNetLemmatizer
 from pattern3.text.en import singularize
 from xmlrpc.server import SimpleXMLRPCServer as xs
 from xmlrpc.server import SimpleXMLRPCRequestHandler as rh
-
+import re
 
 def pos_assign(sentence):
+    sentence = re.sub(r'[^a-zA-Z0-9\s]+', '', sentence)
     print("called" + sentence)
     tokenizedtext = nl.word_tokenize(sentence)
     print(tokenizedtext)
