@@ -1,8 +1,4 @@
-var fs = require('fs'),
-    argv = require('minimist')(process.argv.slice(2)),
-    excel = require('excel4node'),
-    parser = require('./useion/lib/parser/index.js');
-
+/* SETTINGS */
 var compare = [
     'Output-orig.json',
     'Output-orig-synon.json',
@@ -10,7 +6,18 @@ var compare = [
     'Output-orig-synon-hyper-hypo.json'
 ];
 
-var json = [];
+var similarityAbove = 0;
+
+/* END SETTINGS */
+
+
+var fs = require('fs'),
+    argv = require('minimist')(process.argv.slice(2)),
+    excel = require('excel4node'),
+    parser = require('./useion/lib/parser/index.js');
+
+var json = [],
+    stats = [];
 
 for (var i in compare) {
     json.push(JSON.parse(fs.readFileSync(compare[i], "utf-8")));
@@ -53,7 +60,27 @@ function gen () {
             ucName = uc.name,
             ucPath = uc.path,
             useCaseParser = new parser.Usecase(),
-            parser_usecase = useCaseParser.parse(ucPath);
+            parser_usecase = useCaseParser.parse(ucPath),
+            corr = {},
+            incorr = {};
+
+
+        var stats_counter = {};
+
+        for (var k in compare) {
+
+            if (!(k in stats_counter))
+                stats_counter[k] = {
+                    correct: 0,
+                    incorrect: 0
+                }
+
+
+            corr[k] = {};
+            incorr[k] = {};
+        }
+
+
 
         var methodsUc = {};
         for (var j in parser_usecase.fragments) {
@@ -122,15 +149,30 @@ function gen () {
 
                     for (var k in compare) {
 
+                        if (methodsMerged[className][methodName][k] < similarityAbove)
+                            continue;
+
+
                         if (k in methodsMerged[className][methodName]) {
-                            if (className+'-'+methodName in methodsUc)
+                            if (className+'-'+methodName in methodsUc) {
                                 var s = workbook.createStyle({
                                     font: { color: '00ff00'}
                                 });
-                            else
+                                if (!(className+'-'+methodName in corr[k])) {
+                                    corr[k][className+'-'+methodName] = 'a'
+                                    stats_counter[k]['correct']++;
+                                }
+
+                            } else {
                                 var s = workbook.createStyle({
                                     font: { color: 'ff0000'}
                                 });
+                                if (!(className+'-'+methodName in incorr[k])) {
+                                    incorr[k][className+'-'+methodName] = 'a'
+                                    stats_counter[k]['incorrect']++;
+                                }
+
+                            }
 
                             worksheet.cell(line,6+parseInt(k)).number(methodsMerged[className][methodName][k]).style(s);
                         }
@@ -141,13 +183,66 @@ function gen () {
 
             }
 
-
-
         }
+
+        stats.push({
+            uc: ucName,
+            implMethods: Object.keys(methodsUc).length,
+            stats_counter: stats_counter
+        })
+
+
     }
 }
 
+function genStats () {
+    var worksheet = workbook.addWorksheet('Sheet 2');
+
+
+    for (var i in compare) {
+        worksheet.cell(1,3+(parseInt(i)*3)).string(compare[i]);
+    }
+
+    worksheet.cell(2,1).string('UC');
+    worksheet.cell(2,2).string('methods implementing UC');
+
+    for (var i in compare) {
+        worksheet.cell(2,3+(parseInt(i)*3)).string('correct');
+        worksheet.cell(2,4+(parseInt(i)*3)).string('% correct');
+        worksheet.cell(2,5+(parseInt(i)*3)).string('incorrect');
+    }
+
+    var line = 3;
+
+    for (var i in stats) {
+
+        if (stats[i]['implMethods'] === 0) {
+            console.log('No methods? ', stats[i]['uc'])
+            continue;
+        }
+
+        worksheet.cell(line,1).string(stats[i]['uc']);
+        worksheet.cell(line,2).number(stats[i]['implMethods']);
+
+        var stats_counter = stats[i]['stats_counter'];
+
+        for (var j in stats_counter) {
+            var s = stats_counter[j];
+            worksheet.cell(line,3+(parseInt(j)*3)).number(s['correct']);
+            worksheet.cell(line,4+(parseInt(j)*3)).number((s['correct']/stats[i]['implMethods'])*100);
+            worksheet.cell(line,5+(parseInt(j)*3)).number(s['incorrect']);
+
+        }
+
+        line++;
+    }
+
+
+
+}
+
 gen();
+genStats();
 
 workbook.write('Output.xlsx');
 
